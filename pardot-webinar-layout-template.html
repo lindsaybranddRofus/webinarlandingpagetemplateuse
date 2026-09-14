@@ -479,6 +479,44 @@
         animation-name: speakerReveal;
       }
     }
+
+    /*
+      Direct region targeting ensures Pardot retains the reveal on both
+      editable content blocks.
+    */
+    [pardot-region="learning-topics"],
+    [pardot-region="speakers-heading"] {
+      opacity: .35;
+      -webkit-animation: speakerReveal .9s cubic-bezier(.22, 1, .36, 1) both;
+      animation: speakerReveal .9s cubic-bezier(.22, 1, .36, 1) both;
+      will-change: opacity, transform;
+    }
+
+    @supports (animation-timeline: view()) {
+      [pardot-region="learning-topics"],
+      [pardot-region="speakers-heading"] {
+        -webkit-animation-name: speakerReveal;
+        animation-name: speakerReveal;
+        -webkit-animation-duration: 1ms;
+        animation-duration: 1ms;
+        -webkit-animation-timing-function: linear;
+        animation-timing-function: linear;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 38%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      [pardot-region="learning-topics"],
+      [pardot-region="speakers-heading"] {
+        opacity: 1;
+        transform: none;
+        -webkit-animation: none;
+        animation: none;
+      }
+    }
   </style>
 </head>
 
@@ -522,7 +560,7 @@
 
           <hr>
 
-          <div pardot-region="learning-topics" pardot-region-type="WYSIWYG">
+          <div class="speaker-motion" pardot-region="learning-topics" pardot-region-type="WYSIWYG">
             <p><strong>What You’ll Learn:</strong></p>
             <ul class="learn-list">
               <li>Topic 1</li>
