@@ -657,6 +657,38 @@
       animation-timeline: auto !important;
       transition: none !important;
     }
+
+    /*
+      Synchronize webinar copy with the form and hero-image entrance.
+      This final rule intentionally overrides the earlier visibility safeguard.
+    */
+    [pardot-region="webinar-title"],
+    [pardot-region="webinar-title"].reveal,
+    [pardot-region="webinar-description"],
+    [pardot-region="webinar-description"].reveal {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 0 !important;
+      transform: translate3d(0, 24px, 0) !important;
+      filter: blur(3px);
+      animation: pardotFadeUp 2500ms cubic-bezier(.22, 1, .36, 1) 120ms both !important;
+      animation-timeline: auto !important;
+      animation-range: normal !important;
+      transition: none !important;
+      will-change: opacity, transform, filter;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      [pardot-region="webinar-title"],
+      [pardot-region="webinar-title"].reveal,
+      [pardot-region="webinar-description"],
+      [pardot-region="webinar-description"].reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        animation: none !important;
+      }
+    }
   </style>
 </head>
 
