@@ -610,6 +610,35 @@
         animation: none !important;
       }
     }
+
+    /*
+      Unified opening reveal: title, description, and learning topics now
+      animate together with no scroll lock or stagger.
+    */
+    [pardot-region="webinar-title"].reveal,
+    [pardot-region="webinar-description"].reveal,
+    [pardot-region="learning-topics"].reveal,
+    body.copy-reveal-started [pardot-region="webinar-title"].reveal,
+    body.copy-reveal-started [pardot-region="webinar-description"].reveal,
+    body.copy-reveal-started [pardot-region="learning-topics"].reveal {
+      opacity: 0;
+      transform: translate3d(0, 24px, 0);
+      animation: pardotFadeUp 2500ms cubic-bezier(.22, 1, .36, 1) 0ms both !important;
+      animation-timeline: auto !important;
+      animation-range: normal !important;
+      transition: none !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      [pardot-region="webinar-title"].reveal,
+      [pardot-region="webinar-description"].reveal,
+      [pardot-region="learning-topics"].reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        animation: none !important;
+      }
+    }
   </style>
 </head>
 
@@ -726,23 +755,5 @@
   </div>
 
 
-  <script>
-    (function () {
-      var revealed = false;
-
-      function beginCopyReveal() {
-        if (revealed || window.scrollY < 8) return;
-        revealed = true;
-        document.body.classList.add("copy-reveal-started");
-        window.removeEventListener("scroll", beginCopyReveal);
-        window.removeEventListener("wheel", beginCopyReveal);
-        window.removeEventListener("touchmove", beginCopyReveal);
-      }
-
-      window.addEventListener("scroll", beginCopyReveal, { passive: true });
-      window.addEventListener("wheel", beginCopyReveal, { passive: true });
-      window.addEventListener("touchmove", beginCopyReveal, { passive: true });
-    }());
-  </script>
 </body>
 </html>
