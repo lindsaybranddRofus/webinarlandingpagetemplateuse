@@ -351,6 +351,76 @@
         animation: none;
       }
     }
+
+    /* Preserve the earlier distinct opening motions */
+    @-webkit-keyframes formReveal {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateX(-28px);
+        transform: translateX(-28px);
+      }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes formReveal {
+      0% {
+        opacity: 0;
+        transform: translateX(-28px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @-webkit-keyframes heroReveal {
+      0% {
+        opacity: 0;
+        -webkit-transform: translateY(18px) scale(.975);
+        transform: translateY(18px) scale(.975);
+        -webkit-filter: saturate(.75);
+        filter: saturate(.75);
+      }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateY(0) scale(1);
+        transform: translateY(0) scale(1);
+        -webkit-filter: saturate(1);
+        filter: saturate(1);
+      }
+    }
+
+    @keyframes heroReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(18px) scale(.975);
+        filter: saturate(.75);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: saturate(1);
+      }
+    }
+
+    .form-motion {
+      -webkit-animation-name: formReveal;
+      animation-name: formReveal;
+    }
+
+    .hero-motion {
+      -webkit-animation-name: heroReveal;
+      animation-name: heroReveal;
+    }
+
+    .title-motion {
+      -webkit-animation-name: elevatedReveal;
+      animation-name: elevatedReveal;
+    }
   </style>
 </head>
 
@@ -366,7 +436,7 @@
     </header>
 
     <main class="landing-grid">
-      <aside class="form-panel entrance-motion" aria-label="Webinar form">
+      <aside class="form-panel entrance-motion form-motion" aria-label="Webinar form">
         <div pardot-region="form-heading" pardot-region-type="WYSIWYG">
           <h2 class="form-panel-title">Watch On-Demand</h2>
         </div>
@@ -377,18 +447,18 @@
       </aside>
 
       <section class="content-panel">
-        <div class="hero-image entrance-motion" pardot-region="hero-image" pardot-region-type="WYSIWYG">
+        <div class="hero-image entrance-motion hero-motion" pardot-region="hero-image" pardot-region-type="WYSIWYG">
           <img
             src="https://drofus.cdn.salesforce-experience.com/cms/delivery/media/MCVYCVCDB5N5CEPMUX66HGO5JH64?oid=00D1I000003HUqvUAG&amp;channelId=0apPd000000021pIAA"
             alt="On-demand webinar">
         </div>
 
         <div class="page-copy">
-          <div class="entrance-motion" pardot-region="webinar-title" pardot-region-type="WYSIWYG">
+          <div class="entrance-motion title-motion" pardot-region="webinar-title" pardot-region-type="WYSIWYG">
             <h1>Insert Webinar Title</h1>
           </div>
 
-          <div class="entrance-motion" pardot-region="webinar-description" pardot-region-type="WYSIWYG">
+          <div pardot-region="webinar-description" pardot-region-type="WYSIWYG">
             <p>insert webinar description.</p>
           </div>
 
