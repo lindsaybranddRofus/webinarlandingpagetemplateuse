@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>%%title%%</title>
+  <meta name="description" content="%%description%%">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #2979f2;
+      --primary-hover: #185fc4;
+      --accent: #ed4e35;
+      --text: #20242a;
+      --muted: #667085;
+      --surface: #ededed;
+      --white: #ffffff;
+      --border: #d0d5dd;
+      --page-width: 1400px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--white);
+      color: var(--text);
+      font-family: "Lato", Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    a { color: var(--primary); }
+
+    h1, h2, h3 {
+      margin-top: 0;
+      font-family: "Inter", Arial, sans-serif;
+      line-height: 1.2;
+    }
+
+    h1 { font-size: clamp(2rem, 4vw, 3.25rem); }
+    h2 { font-size: clamp(1.55rem, 3vw, 2.25rem); }
+
+    .page-shell {
+      width: min(100%, var(--page-width));
+      margin: 0 auto;
+      padding: 42px 48px 0;
+    }
+
+    .site-header { padding-bottom: 38px; }
+    .site-header img { width: 202px; }
+
+    .landing-grid {
+      display: grid;
+      grid-template-columns: minmax(300px, 1fr) minmax(0, 2fr);
+      gap: 42px;
+      align-items: start;
+      padding-bottom: 48px;
+    }
+
+    .form-panel {
+      position: sticky;
+      top: 24px;
+      padding: 40px;
+      background: var(--surface);
+    }
+
+    .form-panel-title {
+      margin-bottom: 24px;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+
+    .hero-image { margin-bottom: 34px; }
+
+    .page-copy {
+      padding: 0 18px;
+      word-break: break-word;
+    }
+
+    .page-copy p { margin: 0 0 1.25rem; }
+
+    .page-copy hr {
+      margin: 42px 0;
+      border: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .learn-list {
+      margin: 0;
+      padding-left: 1.3rem;
+    }
+
+    .learn-list li { margin-bottom: 10px; }
+
+    .speakers-section {
+      margin-left: calc(33.333% + 14px);
+      padding: 0 18px 48px;
+    }
+
+    .speakers-grid {
+      display: grid;
+      gap: 26px;
+    }
+
+    .speaker {
+      display: grid;
+      grid-template-columns: minmax(120px, 180px) minmax(0, 1fr);
+      gap: 28px;
+      align-items: start;
+      padding: 20px 0;
+    }
+
+    .speaker-photo img {
+      width: 120px;
+      margin: 0 auto;
+      border-radius: 50%;
+    }
+
+    .speaker-details {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .speaker-details strong {
+      font-size: 16px;
+    }
+
+    .speaker-bio p {
+      margin-top: 0;
+      font-size: 16px;
+    }
+
+    .site-footer {
+      margin: 0 -48px;
+      padding: 50px;
+      background: var(--surface);
+      text-align: center;
+    }
+
+    .site-footer img {
+      width: 47px;
+      margin: 0 auto 20px;
+    }
+
+    .site-footer a { font-size: 12px; }
+
+    /* Pardot form styling */
+    form.form { margin: 0; padding: 0; }
+    form.form p { margin: 0 0 16px; padding: 0; }
+
+    form.form p label {
+      float: none;
+      display: block;
+      width: auto;
+      margin: 0 0 6px;
+      padding: 0;
+      background: none;
+      color: #444;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    form.form p.required label,
+    form.form span.required label {
+      background: none;
+      padding-left: 0;
+    }
+
+    form.form span.value { margin-left: 0; }
+
+    form.form input.text,
+    form.form input.date,
+    form.form select,
+    form.form textarea.standard {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--white);
+      color: var(--text);
+      font: inherit;
+    }
+
+    form.form textarea.standard {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    form.form input.text:focus,
+    form.form input.date:focus,
+    form.form select:focus,
+    form.form textarea.standard:focus {
+      border-color: var(--primary);
+      outline: 2px solid rgba(41, 121, 242, .18);
+    }
+
+    form.form p.submit {
+      margin: 26px 0 0;
+      text-align: center;
+    }
+
+    form.form p.submit input {
+      margin: 0;
+      padding: 13px 42px;
+      border: 0;
+      border-radius: 44px;
+      background: var(--primary);
+      color: var(--white);
+      cursor: pointer;
+      font-family: "Inter", Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 20px;
+      text-transform: uppercase;
+    }
+
+    form.form p.submit input:hover,
+    form.form p.submit input:focus {
+      background: var(--primary-hover);
+    }
+
+    form.form p.no-label { margin-left: 0; }
+
+    form.form p.errors {
+      padding: 10px;
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    form.form p.error.no-label {
+      margin-left: 0;
+      color: #ba0517;
+    }
+
+    form.form span.description {
+      display: block;
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    form.form .pd-checkbox .value span,
+    form.form .pd-radio .value span {
+      display: block;
+    }
+
+    form.form .pd-checkbox label.inline,
+    form.form .pd-radio label.inline {
+      display: inline;
+      font-weight: 400;
+    }
+
+    @media (max-width: 900px) {
+      .page-shell { padding: 30px 28px 0; }
+      .landing-grid { grid-template-columns: 1fr; }
+      .form-panel {
+        position: static;
+        order: 2;
+      }
+      .content-panel { order: 1; }
+      .speakers-section {
+        margin-left: 0;
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .site-footer { margin: 0 -28px; }
+    }
+
+    @media (max-width: 600px) {
+      .page-shell { padding: 24px 18px 0; }
+      .site-header { padding-bottom: 26px; }
+      .landing-grid { gap: 28px; }
+      .form-panel { padding: 28px 20px; }
+      .page-copy { padding: 0; }
+      .speaker { grid-template-columns: 1fr; }
+      .speaker-bio { text-align: left; }
+      .site-footer {
+        margin: 0 -18px;
+        padding: 40px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <div pardot-region="header-logo" pardot-region-type="WYSIWYG">
+        <img
+          src="https://drofus.cdn.salesforce-experience.com/cms/delivery/media/MCJVD7VQBOHNDELLKPVPVN4I2USE?oid=00D1I000003HUqvUAG&amp;channelId=0apPd000000021pIAA"
+          alt="Nemetschek"
+          width="202">
+      </div>
+    </header>
+
+    <main class="landing-grid">
+      <aside class="form-panel" aria-label="Webinar form">
+        <div pardot-region="form-heading" pardot-region-type="WYSIWYG">
+          <h2 class="form-panel-title">Watch On-Demand</h2>
+        </div>
+
+        <div class="form-region">
+          %%content%%
+        </div>
+      </aside>
+
+      <section class="content-panel">
+        <div class="hero-image" pardot-region="hero-image" pardot-region-type="WYSIWYG">
+          <img
+            src="https://drofus.cdn.salesforce-experience.com/cms/delivery/media/MCVYCVCDB5N5CEPMUX66HGO5JH64?oid=00D1I000003HUqvUAG&amp;channelId=0apPd000000021pIAA"
+            alt="On-demand webinar">
+        </div>
+
+        <div class="page-copy">
+          <div pardot-region="webinar-title" pardot-region-type="WYSIWYG">
+            <h1>Insert Webinar Title</h1>
+          </div>
+
+          <div pardot-region="webinar-description" pardot-region-type="WYSIWYG">
+            <p>insert webinar description.</p>
+          </div>
+
+          <hr>
+
+          <div pardot-region="learning-topics" pardot-region-type="WYSIWYG">
+            <p><strong>What You’ll Learn:</strong></p>
+            <ul class="learn-list">
+              <li>Topic 1</li>
+              <li>Topic 2</li>
+              <li>Topic 3</li>
+              <li>Topic 4</li>
+              <li>Topic 5</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="speakers-section">
+      <div pardot-region="speakers-heading" pardot-region-type="WYSIWYG">
+        <h2>Speakers</h2>
+      </div>
+
+      <div class="speakers-grid">
+        <article class="speaker">
+          <div class="speaker-profile">
+            <div class="speaker-photo" pardot-region="speaker-one-image" pardot-region-type="WYSIWYG">
+              <img
+                src="https://drofus.cdn.salesforce-experience.com/cms/delivery/media/MCXSREQOMGGJE3TDRICPZBLRBVKU?oid=00D1I000003HUqvUAG&amp;channelId=0apPd000000021pIAA"
+                alt="Daniel Will">
+            </div>
+
+            <div class="speaker-details" pardot-region="speaker-one-details" pardot-region-type="WYSIWYG">
+              <strong>Daniel Will</strong><br>
+              Sales Manager<br>
+              dRofus dTwin
+            </div>
+          </div>
+
+          <div class="speaker-bio" pardot-region="speaker-one-bio" pardot-region-type="WYSIWYG">
+            <p>insert speaker bio.</p>
+          </div>
+        </article>
+
+        <article class="speaker">
+          <div class="speaker-profile">
+            <div class="speaker-photo" pardot-region="speaker-two-image" pardot-region-type="WYSIWYG">
+              <img
+                src="https://drofus.cdn.salesforce-experience.com/cms/delivery/media/MC2YPWIS56BZCVJLAL62AHRPGYMI?oid=00D1I000003HUqvUAG&amp;channelId=0apPd000000021pIAA"
+                alt="Sultan Al Humaidan">
+            </div>
+
+            <div class="speaker-details" pardot-region="speaker-two-details" pardot-region-type="WYSIWYG">
+              <strong>Sultan Al Humaidan</strong><br>
+              Senior Account Manager<br>
+              Nemetschek Saudi
+            </div>
+          </div>
+
+          <div class="speaker-bio" pardot-region="speaker-two-bio" pardot-region-type="WYSIWYG">
+            <p>insert speaker bio.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div pardot-region="footer-content" pardot-region-type="WYSIWYG">
+        <img
+          src="https://drofus.cdn.salesforce-experience.com/cms/delivery/media/MCTXDDGUEV4RCWPG4QF62O7IAQGU?oid=00D1I000003HUqvUAG&amp;channelId=0apPd000000021pIAA"
+          alt="Nemetschek">
+        <a href="https://www.drofus.com/en/privacy-policy">Privacy Policy</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
