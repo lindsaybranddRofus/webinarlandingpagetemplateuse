@@ -328,8 +328,8 @@
     .entrance-motion {
       -webkit-animation-name: elevatedReveal;
       animation-name: elevatedReveal;
-      -webkit-animation-duration: 2.5s;
-      animation-duration: 2.5s;
+      -webkit-animation-duration: 1.5s;
+      animation-duration: 1.5s;
       -webkit-animation-timing-function: cubic-bezier(.22, 1, .36, 1);
       animation-timing-function: cubic-bezier(.22, 1, .36, 1);
       -webkit-animation-fill-mode: both;
@@ -420,6 +420,26 @@
     .title-motion {
       -webkit-animation-name: elevatedReveal;
       animation-name: elevatedReveal;
+    }
+
+    /*
+      Reveal each speaker as the card enters the viewport.
+      Browsers without view-timeline support retain the short load fallback.
+    */
+    @supports (animation-timeline: view()) {
+      .speaker-motion {
+        opacity: 0;
+        -webkit-animation-name: heroReveal;
+        animation-name: heroReveal;
+        -webkit-animation-duration: 1ms;
+        animation-duration: 1ms;
+        -webkit-animation-timing-function: linear;
+        animation-timing-function: linear;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 25%;
+      }
     }
   </style>
 </head>
