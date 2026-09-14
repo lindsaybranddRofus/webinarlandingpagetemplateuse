@@ -551,6 +551,65 @@
         animation: none !important;
       }
     }
+
+    /*
+      Final resilient motion rules:
+      - CSS scroll progress where supported
+      - timed fallback so Pardot can never leave content permanently hidden
+    */
+    [pardot-region="webinar-title"].reveal {
+      animation: pardotFadeUp 1800ms cubic-bezier(.22, 1, .36, 1) 900ms both !important;
+    }
+
+    [pardot-region="webinar-description"].reveal {
+      animation: pardotFadeUp 1800ms cubic-bezier(.22, 1, .36, 1) 1200ms both !important;
+    }
+
+    [pardot-region="learning-topics"].reveal {
+      animation: pardotFadeUp 1800ms cubic-bezier(.22, 1, .36, 1) 1500ms both !important;
+    }
+
+    .speakers-section .reveal,
+    .speakers-section .speaker.reveal-scale {
+      animation-duration: 900ms !important;
+      animation-delay: 0ms !important;
+    }
+
+    @supports (animation-timeline: scroll()) {
+      [pardot-region="webinar-title"].reveal {
+        animation: pardotFadeUp linear both !important;
+        animation-timeline: scroll(root) !important;
+        animation-range: 1px 160px !important;
+      }
+
+      [pardot-region="webinar-description"].reveal {
+        animation: pardotFadeUp linear both !important;
+        animation-timeline: scroll(root) !important;
+        animation-range: 55px 225px !important;
+      }
+
+      [pardot-region="learning-topics"].reveal {
+        animation: pardotFadeUp linear both !important;
+        animation-timeline: scroll(root) !important;
+        animation-range: 125px 310px !important;
+      }
+
+      .speakers-section .reveal {
+        animation-range: entry 0% cover 22% !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      [pardot-region="webinar-title"].reveal,
+      [pardot-region="webinar-description"].reveal,
+      [pardot-region="learning-topics"].reveal,
+      .speakers-section .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        animation: none !important;
+      }
+    }
   </style>
 </head>
 
