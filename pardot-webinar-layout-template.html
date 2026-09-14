@@ -441,6 +441,44 @@
         animation-range: entry 0% cover 25%;
       }
     }
+
+    /* Higher-opacity scroll reveal shared by heading and speaker cards */
+    @-webkit-keyframes speakerReveal {
+      0% {
+        opacity: .35;
+        -webkit-transform: translateY(18px) scale(.99);
+        transform: translateY(18px) scale(.99);
+      }
+      100% {
+        opacity: 1;
+        -webkit-transform: translateY(0) scale(1);
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes speakerReveal {
+      0% {
+        opacity: .35;
+        transform: translateY(18px) scale(.99);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .speaker-motion {
+      -webkit-animation-name: speakerReveal;
+      animation-name: speakerReveal;
+    }
+
+    @supports (animation-timeline: view()) {
+      .speaker-motion {
+        opacity: .35;
+        -webkit-animation-name: speakerReveal;
+        animation-name: speakerReveal;
+      }
+    }
   </style>
 </head>
 
@@ -499,7 +537,7 @@
     </main>
 
     <section class="speakers-section">
-      <div pardot-region="speakers-heading" pardot-region-type="WYSIWYG">
+      <div class="speaker-motion" pardot-region="speakers-heading" pardot-region-type="WYSIWYG">
         <h2>Speakers</h2>
       </div>
 
