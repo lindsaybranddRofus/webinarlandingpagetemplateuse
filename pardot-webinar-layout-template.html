@@ -324,7 +324,7 @@
       background-image: linear-gradient(transparent 88%, rgba(41, 121, 242, .24) 0);
       background-repeat: no-repeat;
       background-size: 0 100%;
-      transition: background-size 1500ms cubic-bezier(.22, 1, .36, 1) 500ms;
+      transition: background-size 2500ms cubic-bezier(.22, 1, .36, 1) 700ms;
     }
 
     [pardot-region="webinar-title"].is-visible h1 {
@@ -433,7 +433,7 @@
     .js .reveal.is-visible {
       opacity: 0;
       transform: translate3d(0, 24px, 0);
-      animation: pardotFadeUp 1400ms cubic-bezier(.22, 1, .36, 1) both;
+      animation: pardotFadeUp 2500ms cubic-bezier(.22, 1, .36, 1) both;
       animation-delay: var(--reveal-delay, 0ms);
       transition: none;
       will-change: opacity, transform, filter;
@@ -511,6 +511,44 @@
 
       [pardot-region="learning-topics"].reveal {
         animation-range: 240px 560px;
+      }
+    }
+
+    /*
+      Reliable first-scroll reveal.
+      These rules override the load animation and keep webinar copy hidden
+      until JavaScript detects the visitor's first deliberate scroll.
+    */
+    [pardot-region="webinar-title"].reveal,
+    [pardot-region="webinar-description"].reveal,
+    [pardot-region="learning-topics"].reveal {
+      opacity: 0 !important;
+      transform: translate3d(0, 30px, 0) !important;
+      filter: blur(3px);
+      animation: none !important;
+      transition: none !important;
+    }
+
+    body.copy-reveal-started [pardot-region="webinar-title"].reveal {
+      animation: pardotFadeUp 2500ms cubic-bezier(.22, 1, .36, 1) 0ms both !important;
+    }
+
+    body.copy-reveal-started [pardot-region="webinar-description"].reveal {
+      animation: pardotFadeUp 2500ms cubic-bezier(.22, 1, .36, 1) 400ms both !important;
+    }
+
+    body.copy-reveal-started [pardot-region="learning-topics"].reveal {
+      animation: pardotFadeUp 2500ms cubic-bezier(.22, 1, .36, 1) 800ms both !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      [pardot-region="webinar-title"].reveal,
+      [pardot-region="webinar-description"].reveal,
+      [pardot-region="learning-topics"].reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none;
+        animation: none !important;
       }
     }
   </style>
@@ -628,5 +666,24 @@
     </footer>
   </div>
 
+
+  <script>
+    (function () {
+      var revealed = false;
+
+      function beginCopyReveal() {
+        if (revealed || window.scrollY < 8) return;
+        revealed = true;
+        document.body.classList.add("copy-reveal-started");
+        window.removeEventListener("scroll", beginCopyReveal);
+        window.removeEventListener("wheel", beginCopyReveal);
+        window.removeEventListener("touchmove", beginCopyReveal);
+      }
+
+      window.addEventListener("scroll", beginCopyReveal, { passive: true });
+      window.addEventListener("wheel", beginCopyReveal, { passive: true });
+      window.addEventListener("touchmove", beginCopyReveal, { passive: true });
+    }());
+  </script>
 </body>
 </html>
