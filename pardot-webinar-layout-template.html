@@ -294,399 +294,61 @@
       }
     }
 
-    /* Refined motion system: enabled only when JavaScript is available */
-    .js .reveal {
-      opacity: 0;
-      transform: translate3d(0, 22px, 0);
-      transition:
-        opacity 700ms cubic-bezier(.22, 1, .36, 1),
-        transform 800ms cubic-bezier(.22, 1, .36, 1);
-      transition-delay: var(--reveal-delay, 0ms);
-      will-change: opacity, transform;
-    }
-
-    .js .reveal.reveal-left {
-      transform: translate3d(-24px, 0, 0);
-    }
-
-    .js .reveal.reveal-scale {
-      transform: translate3d(0, 14px, 0) scale(.985);
-    }
-
-    .js .reveal.is-visible {
-      opacity: 1;
-      transform: translate3d(0, 0, 0) scale(1);
-    }
-
-    [pardot-region="webinar-title"] h1 {
-      position: relative;
-      display: inline;
-      background-image: linear-gradient(transparent 88%, rgba(41, 121, 242, .24) 0);
-      background-repeat: no-repeat;
-      background-size: 0 100%;
-      transition: background-size 2500ms cubic-bezier(.22, 1, .36, 1) 700ms;
-    }
-
-    [pardot-region="webinar-title"].is-visible h1 {
-      background-size: 100% 100%;
-    }
-
-    .hero-image {
-      overflow: hidden;
-    }
-
-    .hero-image img {
-      transition: transform 900ms cubic-bezier(.22, 1, .36, 1);
-    }
-
-    .hero-image:hover img {
-      transform: scale(1.015);
-    }
-
-    .speaker {
-      transition:
-        opacity 700ms cubic-bezier(.22, 1, .36, 1),
-        transform 800ms cubic-bezier(.22, 1, .36, 1),
-        background-color 250ms ease;
-    }
-
-    .speaker:hover {
-      background-color: rgba(41, 121, 242, .025);
-    }
-
-    .speaker-photo img {
-      transition:
-        transform 400ms cubic-bezier(.22, 1, .36, 1),
-        box-shadow 400ms ease;
-    }
-
-    .speaker:hover .speaker-photo img {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 30px rgba(20, 35, 60, .12);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-
-      .js .reveal,
-      .js .reveal.reveal-left,
-      .js .reveal.reveal-scale,
-      .hero-image img,
-      .speaker,
-      .speaker-photo img,
-      [pardot-region="webinar-title"] h1 {
-        opacity: 1;
-        transform: none;
-        transition: none;
-        animation: none;
-        background-size: 100% 100%;
-      }
-    }
-
-    /*
-      CSS-only animation layer.
-      This does not depend on JavaScript, which makes it reliable in Pardot.
-    */
-    @keyframes pardotFadeUp {
+    /* Single, Pardot-safe entrance animation shared by key page elements */
+    @-webkit-keyframes elevatedReveal {
       0% {
         opacity: 0;
-        transform: translate3d(0, 24px, 0);
-        filter: blur(3px);
+        -webkit-transform: translateY(30px) scale(.985);
+        transform: translateY(30px) scale(.985);
+        -webkit-filter: blur(4px);
+        filter: blur(4px);
       }
       100% {
         opacity: 1;
-        transform: translate3d(0, 0, 0);
+        -webkit-transform: translateY(0) scale(1);
+        transform: translateY(0) scale(1);
+        -webkit-filter: blur(0);
         filter: blur(0);
       }
     }
 
-    @keyframes pardotFadeLeft {
+    @keyframes elevatedReveal {
       0% {
         opacity: 0;
-        transform: translate3d(-28px, 0, 0);
+        transform: translateY(30px) scale(.985);
+        filter: blur(4px);
       }
       100% {
         opacity: 1;
-        transform: translate3d(0, 0, 0);
+        transform: translateY(0) scale(1);
+        filter: blur(0);
       }
     }
 
-    @keyframes pardotImageReveal {
-      0% {
-        opacity: 0;
-        transform: translate3d(0, 18px, 0) scale(.975);
-        filter: saturate(.75);
-      }
-      100% {
-        opacity: 1;
-        transform: translate3d(0, 0, 0) scale(1);
-        filter: saturate(1);
-      }
+    .entrance-motion {
+      -webkit-animation-name: elevatedReveal;
+      animation-name: elevatedReveal;
+      -webkit-animation-duration: 2.5s;
+      animation-duration: 2.5s;
+      -webkit-animation-timing-function: cubic-bezier(.22, 1, .36, 1);
+      animation-timing-function: cubic-bezier(.22, 1, .36, 1);
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
     }
 
-    /*
-      Page-opening animations. The inline --reveal-delay values already
-      assigned to each section create the staggered entrance.
-    */
-    .reveal,
-    .js .reveal,
-    .js .reveal.is-visible {
-      opacity: 0;
-      transform: translate3d(0, 24px, 0);
-      animation: pardotFadeUp 2500ms cubic-bezier(.22, 1, .36, 1) both;
-      animation-delay: var(--reveal-delay, 0ms);
-      transition: none;
-      will-change: opacity, transform, filter;
-    }
-
-    .reveal-left,
-    .js .reveal.reveal-left,
-    .js .reveal.reveal-left.is-visible {
-      animation-name: pardotFadeLeft;
-    }
-
-    .reveal-scale,
-    .js .reveal.reveal-scale,
-    .js .reveal.reveal-scale.is-visible {
-      animation-name: pardotImageReveal;
-    }
-
-    /*
-      Scroll-driven enhancement. Supporting browsers animate speaker content
-      when it enters the viewport instead of running it before the user arrives.
-    */
-    @supports (animation-timeline: view()) {
-      .speakers-section .reveal {
-        animation-name: pardotFadeUp;
-        animation-duration: 1ms;
-        animation-delay: 0ms;
-        animation-fill-mode: both;
-        animation-timing-function: linear;
-        animation-timeline: view();
-        animation-range: entry 0% cover 55%;
-      }
-
-      .speakers-section .speaker.reveal-scale {
-        animation-name: pardotImageReveal;
-      }
+    .speaker-motion {
+      -webkit-animation: elevatedReveal .9s cubic-bezier(.22, 1, .36, 1) both;
+      animation: elevatedReveal .9s cubic-bezier(.22, 1, .36, 1) both;
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .reveal,
-      .js .reveal,
-      .js .reveal.is-visible,
-      .speakers-section .reveal {
+      .entrance-motion,
+      .speaker-motion {
         opacity: 1;
         transform: none;
         filter: none;
+        -webkit-animation: none;
         animation: none;
-        transition: none;
-      }
-    }
-
-    /*
-      Hold the webinar copy until the visitor scrolls.
-      Each section uses a later scroll range to create a refined sequence.
-    */
-    @supports (animation-timeline: scroll()) {
-      [pardot-region="webinar-title"].reveal,
-      [pardot-region="webinar-description"].reveal,
-      [pardot-region="learning-topics"].reveal {
-        opacity: 0;
-        animation-name: pardotFadeUp;
-        animation-duration: 1ms;
-        animation-delay: 0ms;
-        animation-fill-mode: both;
-        animation-timing-function: linear;
-        animation-timeline: scroll(root block);
-      }
-
-      [pardot-region="webinar-title"].reveal {
-        animation-range: 1px 280px;
-      }
-
-      [pardot-region="webinar-description"].reveal {
-        animation-range: 110px 410px;
-      }
-
-      [pardot-region="learning-topics"].reveal {
-        animation-range: 240px 560px;
-      }
-    }
-
-    /*
-      Reliable first-scroll reveal.
-      These rules override the load animation and keep webinar copy hidden
-      until JavaScript detects the visitor's first deliberate scroll.
-    */
-    [pardot-region="webinar-title"].reveal,
-    [pardot-region="webinar-description"].reveal,
-    [pardot-region="learning-topics"].reveal {
-      opacity: 0;
-      transform: translate3d(0, 30px, 0);
-      filter: blur(3px);
-      animation: none !important;
-      transition: none !important;
-    }
-
-    body.copy-reveal-started [pardot-region="webinar-title"].reveal {
-      animation: pardotFadeUp 2500ms cubic-bezier(.22, 1, .36, 1) 0ms both !important;
-    }
-
-    body.copy-reveal-started [pardot-region="webinar-description"].reveal {
-      animation: pardotFadeUp 2500ms cubic-bezier(.22, 1, .36, 1) 400ms both !important;
-    }
-
-    body.copy-reveal-started [pardot-region="learning-topics"].reveal {
-      animation: pardotFadeUp 2500ms cubic-bezier(.22, 1, .36, 1) 800ms both !important;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      [pardot-region="webinar-title"].reveal,
-      [pardot-region="webinar-description"].reveal,
-      [pardot-region="learning-topics"].reveal {
-        opacity: 1;
-        transform: none;
-        filter: none;
-        animation: none !important;
-      }
-    }
-
-    /*
-      Final resilient motion rules:
-      - CSS scroll progress where supported
-      - timed fallback so Pardot can never leave content permanently hidden
-    */
-    [pardot-region="webinar-title"].reveal {
-      animation: pardotFadeUp 1800ms cubic-bezier(.22, 1, .36, 1) 900ms both !important;
-    }
-
-    [pardot-region="webinar-description"].reveal {
-      animation: pardotFadeUp 1800ms cubic-bezier(.22, 1, .36, 1) 1200ms both !important;
-    }
-
-    [pardot-region="learning-topics"].reveal {
-      animation: pardotFadeUp 1800ms cubic-bezier(.22, 1, .36, 1) 1500ms both !important;
-    }
-
-    .speakers-section .reveal,
-    .speakers-section .speaker.reveal-scale {
-      animation-duration: 900ms !important;
-      animation-delay: 0ms !important;
-    }
-
-    @supports (animation-timeline: scroll()) {
-      [pardot-region="webinar-title"].reveal {
-        animation: pardotFadeUp linear both !important;
-        animation-timeline: scroll(root) !important;
-        animation-range: 1px 160px !important;
-      }
-
-      [pardot-region="webinar-description"].reveal {
-        animation: pardotFadeUp linear both !important;
-        animation-timeline: scroll(root) !important;
-        animation-range: 55px 225px !important;
-      }
-
-      [pardot-region="learning-topics"].reveal {
-        animation: pardotFadeUp linear both !important;
-        animation-timeline: scroll(root) !important;
-        animation-range: 125px 310px !important;
-      }
-
-      .speakers-section .reveal {
-        animation-range: entry 0% cover 22% !important;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      [pardot-region="webinar-title"].reveal,
-      [pardot-region="webinar-description"].reveal,
-      [pardot-region="learning-topics"].reveal,
-      .speakers-section .reveal {
-        opacity: 1;
-        transform: none;
-        filter: none;
-        animation: none !important;
-      }
-    }
-
-    /*
-      Unified opening reveal: title, description, and learning topics now
-      animate together with no scroll lock or stagger.
-    */
-    [pardot-region="webinar-title"].reveal,
-    [pardot-region="webinar-description"].reveal,
-    [pardot-region="learning-topics"].reveal,
-    body.copy-reveal-started [pardot-region="webinar-title"].reveal,
-    body.copy-reveal-started [pardot-region="webinar-description"].reveal,
-    body.copy-reveal-started [pardot-region="learning-topics"].reveal {
-      opacity: 0;
-      transform: translate3d(0, 24px, 0);
-      animation: pardotFadeUp 2500ms cubic-bezier(.22, 1, .36, 1) 0ms both !important;
-      animation-timeline: auto !important;
-      animation-range: normal !important;
-      transition: none !important;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      [pardot-region="webinar-title"].reveal,
-      [pardot-region="webinar-description"].reveal,
-      [pardot-region="learning-topics"].reveal {
-        opacity: 1;
-        transform: none;
-        filter: none;
-        animation: none !important;
-      }
-    }
-
-    /*
-      Pardot-safe visibility override.
-      Keep editable webinar copy visible even when Pardot rewrites animation CSS.
-    */
-    [pardot-region="webinar-title"],
-    [pardot-region="webinar-title"].reveal,
-    [pardot-region="webinar-description"],
-    [pardot-region="webinar-description"].reveal {
-      display: block !important;
-      visibility: visible !important;
-      opacity: 1;
-      transform: none;
-      filter: none;
-      animation: none !important;
-      animation-timeline: auto !important;
-      transition: none !important;
-    }
-
-    /*
-      Synchronize webinar copy with the form and hero-image entrance.
-      This final rule intentionally overrides the earlier visibility safeguard.
-    */
-    [pardot-region="webinar-title"],
-    [pardot-region="webinar-title"].reveal,
-    [pardot-region="webinar-description"],
-    [pardot-region="webinar-description"].reveal {
-      display: block !important;
-      visibility: visible !important;
-      opacity: 0;
-      transform: translate3d(0, 24px, 0);
-      filter: blur(3px);
-      animation: pardotFadeUp 2500ms cubic-bezier(.22, 1, .36, 1) 120ms both !important;
-      animation-timeline: auto !important;
-      animation-range: normal !important;
-      transition: none !important;
-      will-change: opacity, transform, filter;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      [pardot-region="webinar-title"],
-      [pardot-region="webinar-title"].reveal,
-      [pardot-region="webinar-description"],
-      [pardot-region="webinar-description"].reveal {
-        opacity: 1;
-        transform: none;
-        filter: none;
-        animation: none !important;
       }
     }
   </style>
@@ -694,7 +356,7 @@
 
 <body>
   <div class="page-shell">
-    <header class="site-header reveal" style="--reveal-delay: 40ms;">
+    <header class="site-header">
       <div pardot-region="header-logo" pardot-region-type="WYSIWYG">
         <img
           src="https://drofus.cdn.salesforce-experience.com/cms/delivery/media/MCJVD7VQBOHNDELLKPVPVN4I2USE?oid=00D1I000003HUqvUAG&amp;channelId=0apPd000000021pIAA"
@@ -704,7 +366,7 @@
     </header>
 
     <main class="landing-grid">
-      <aside class="form-panel reveal reveal-left" style="--reveal-delay: 140ms;" aria-label="Webinar form">
+      <aside class="form-panel entrance-motion" aria-label="Webinar form">
         <div pardot-region="form-heading" pardot-region-type="WYSIWYG">
           <h2 class="form-panel-title">Watch On-Demand</h2>
         </div>
@@ -715,24 +377,24 @@
       </aside>
 
       <section class="content-panel">
-        <div class="hero-image reveal reveal-scale" style="--reveal-delay: 100ms;" pardot-region="hero-image" pardot-region-type="WYSIWYG">
+        <div class="hero-image entrance-motion" pardot-region="hero-image" pardot-region-type="WYSIWYG">
           <img
             src="https://drofus.cdn.salesforce-experience.com/cms/delivery/media/MCVYCVCDB5N5CEPMUX66HGO5JH64?oid=00D1I000003HUqvUAG&amp;channelId=0apPd000000021pIAA"
             alt="On-demand webinar">
         </div>
 
         <div class="page-copy">
-          <div class="reveal" style="--reveal-delay: 180ms;" pardot-region="webinar-title" pardot-region-type="WYSIWYG">
+          <div class="entrance-motion" pardot-region="webinar-title" pardot-region-type="WYSIWYG">
             <h1>Insert Webinar Title</h1>
           </div>
 
-          <div class="reveal" style="--reveal-delay: 260ms;" pardot-region="webinar-description" pardot-region-type="WYSIWYG">
+          <div class="entrance-motion" pardot-region="webinar-description" pardot-region-type="WYSIWYG">
             <p>insert webinar description.</p>
           </div>
 
           <hr>
 
-          <div class="reveal" style="--reveal-delay: 80ms;" pardot-region="learning-topics" pardot-region-type="WYSIWYG">
+          <div pardot-region="learning-topics" pardot-region-type="WYSIWYG">
             <p><strong>What You’ll Learn:</strong></p>
             <ul class="learn-list">
               <li>Topic 1</li>
@@ -747,12 +409,12 @@
     </main>
 
     <section class="speakers-section">
-      <div class="reveal" pardot-region="speakers-heading" pardot-region-type="WYSIWYG">
+      <div pardot-region="speakers-heading" pardot-region-type="WYSIWYG">
         <h2>Speakers</h2>
       </div>
 
       <div class="speakers-grid">
-        <article class="speaker reveal reveal-scale">
+        <article class="speaker speaker-motion">
           <div class="speaker-profile">
             <div class="speaker-photo" pardot-region="speaker-one-image" pardot-region-type="WYSIWYG">
               <img
@@ -772,7 +434,7 @@
           </div>
         </article>
 
-        <article class="speaker reveal reveal-scale">
+        <article class="speaker speaker-motion">
           <div class="speaker-profile">
             <div class="speaker-photo" pardot-region="speaker-two-image" pardot-region-type="WYSIWYG">
               <img
@@ -803,7 +465,5 @@
       </div>
     </footer>
   </div>
-
-
 </body>
 </html>
