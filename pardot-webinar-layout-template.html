@@ -639,6 +639,24 @@
         animation: none !important;
       }
     }
+
+    /*
+      Pardot-safe visibility override.
+      Keep editable webinar copy visible even when Pardot rewrites animation CSS.
+    */
+    [pardot-region="webinar-title"],
+    [pardot-region="webinar-title"].reveal,
+    [pardot-region="webinar-description"],
+    [pardot-region="webinar-description"].reveal {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+      animation: none !important;
+      animation-timeline: auto !important;
+      transition: none !important;
+    }
   </style>
 </head>
 
